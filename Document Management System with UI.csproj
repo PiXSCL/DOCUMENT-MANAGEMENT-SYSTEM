@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Document_Management_System_with_UI</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="password icon.png" />
+    <None Remove="password.png" />
+    <None Remove="user icon.jpg" />
+    <None Remove="user icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="8.0.33" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="password icon.png" />
+    <Resource Include="password.png" />
+    <Resource Include="user icon.jpg" />
+    <Resource Include="user icon.png" />
+  </ItemGroup>
+
+</Project>
