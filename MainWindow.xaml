@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Document_Management_System_with_UI"
         mc:Ignorable="d"
         Title="Login Window" Height="450" Width="320"
-        WindowStyle="None" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{x:Null}" ResizeMode="NoResize" WindowState="Minimized" WindowStartupLocation="CenterScreen" Background="{x:Null}" AllowsTransparency="True"
+        WindowStyle="None" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{x:Null}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" AllowsTransparency="True"
         >
 
     <Grid Height="NaN" Margin="0,92,0,0" RenderTransformOrigin="0.5,0.5">
