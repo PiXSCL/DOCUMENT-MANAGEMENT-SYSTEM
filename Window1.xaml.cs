@@ -33,26 +33,46 @@ namespace Document_Management_System_with_UI
         MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=ra05182002");
 
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
         private void Register_Button_Click(object sender, RoutedEventArgs e)
         {
-            string insertQuery = "INSERT INTO dms.user(username,password) VALUES ('" + Username.Text + "'," + Passwordtextbox.Text + ")";
-            connection.Open();
-            MySqlCommand command = new MySqlCommand(insertQuery, connection);
-            if(command.ExecuteNonQuery()==1) 
+            string accessLevel = string.Empty;
+            string username = Username.Text.Trim();
+            string password = Password.Password.Trim();
+            ComboBoxItem selectedItem = Combobox.SelectedItem as ComboBoxItem;
+            if (selectedItem != null)
             {
-                MessageBox.Show("Register Success");
-            }
-            else
-            {
-                MessageBox.Show("Register Failed");
+                accessLevel = selectedItem.Content.ToString();
             }
 
-            connection.Close();
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(accessLevel))
+            {
+                MessageBox.Show("Please fill in all the fields.");
+                return; // Exit the method
+            }
+
+            try
+            {
+                string insertQuery = "INSERT INTO dms.user(username,password,accesslevel) VALUES ('" + username + "','" + password + "','" + accessLevel + "')";
+                connection.Open();
+                MySqlCommand command = new MySqlCommand(insertQuery, connection);
+                if(command.ExecuteNonQuery()==1) 
+                {
+                    MessageBox.Show("Register Success");
+                }
+                else
+                {
+                    MessageBox.Show("Register Failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally 
+            { 
+                connection.Close(); 
+            }
         }
 
         private void Login_Button_Click(object sender, RoutedEventArgs e)
@@ -73,6 +93,11 @@ namespace Document_Management_System_with_UI
             Password.Password = Passwordtextbox.Text;
             Passwordtextbox.Visibility = Visibility.Collapsed;
             Password.Visibility = Visibility.Visible;
+        }
+
+        private void Combobox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

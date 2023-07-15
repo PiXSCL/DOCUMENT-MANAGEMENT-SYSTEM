@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Register" Height="450" Width="320"
         WindowStyle="None" HorizontalAlignment="Center" VerticalAlignment="Center" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Background="{x:Null}" Foreground="{x:Null}" AllowsTransparency="True">
-    <Grid Height="NaN" Margin="0,102,0,0" RenderTransformOrigin="0.5,0.5">
+    <Grid Height="NaN" Margin="-1,89,-4,-6" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform/>
@@ -20,7 +20,7 @@
             <ColumnDefinition Width="45*"/>
             <ColumnDefinition Width="79*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="427" Margin="0,-71,0,0" Stroke="Black" VerticalAlignment="Top" Width="322" RadiusX="16.132" RadiusY="16.132">
+        <Rectangle Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="427" Margin="0,-71,0,0" Stroke="Black" VerticalAlignment="Top" Width="322" RadiusX="23.774" RadiusY="23.774">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFE9B378"/>
@@ -44,12 +44,12 @@
         <Rectangle Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="64" Margin="57,77,0,0" VerticalAlignment="Top" Width="203" Fill="#FF090909" Stroke="Black" Opacity="0.2" RadiusX="20.678" RadiusY="20.678"/>
         <Image HorizontalAlignment="Left" Height="35" Margin="68,91,0,0" VerticalAlignment="Top" Width="36" Source="/password icon.png"/>
         <Grid Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="65" Margin="105,76,0,0" VerticalAlignment="Top" Width="146">
-            <PasswordBox x:Name="Password" HorizontalAlignment="Left" Height="67" Margin="1,1,0,0" VerticalAlignment="Top" Width="148" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" VerticalContentAlignment="Center" FontSize="16"/>
+            <PasswordBox x:Name="Password" HorizontalAlignment="Left" Height="67" Margin="1,1,0,0" VerticalAlignment="Top" Width="148" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" VerticalContentAlignment="Center" FontSize="16" Password="Password" Visibility="Hidden"/>
             <TextBox x:Name="Passwordtextbox" HorizontalAlignment="Left" Height="69" Margin="4,1,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="145" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" VerticalContentAlignment="Center" FontFamily="Arial" FontSize="16"/>
         </Grid>
         <CheckBox Grid.Column="1" Content="CheckBox" Unchecked="ShowPassword_Unchecked"  Checked="ShowPassword_Checked" HorizontalAlignment="Left" Height="15" Margin="147,103,0,0" VerticalAlignment="Top" Width="18" RenderTransformOrigin="0.471,0.647" IsChecked="False"/>
         <Rectangle Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="64" Margin="57,158,0,0" VerticalAlignment="Top" Width="203" Fill="#FF090909" Stroke="Black" Opacity="0.2" RadiusX="20.678" RadiusY="20.678"/>
-        <Label Content="Access Level" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="34" Margin="102,0,0,0" VerticalAlignment="Center" Width="172" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Access Level" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="34" Margin="102,158,0,0" VerticalAlignment="Top" Width="172" FontFamily="Arial" FontSize="16" FontWeight="Bold"/>
         <Rectangle Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="51" Margin="62,252,0,0" VerticalAlignment="Top" Width="191" Stroke="Black" Opacity="0.7" RadiusX="20.678" RadiusY="20.678" Fill="#FF0500FF"/>
         <Button x:Name="RegisterButton" Content="Register" Grid.ColumnSpan="2" Height="42" Margin="71,256,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Click="Register_Button_Click" Foreground="#FFF4EFEF" FontSize="24" FontFamily="Arial Black" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="174">
             <Button.RenderTransform>
@@ -62,5 +62,9 @@
             </Button.RenderTransform>
         </Button>
         <Button x:Name="Login" Content="Login" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="22" Margin="86,309,0,0" VerticalAlignment="Top" Width="147" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF0616DA" FontWeight="Bold" Click="Login_Button_Click"/>
+        <ComboBox x:Name="Combobox" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="31" Margin="68,187,0,0" VerticalAlignment="Top" Width="184" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" SelectionChanged="Combobox_SelectionChanged_1">
+            <ComboBoxItem Content="Read Only" FontFamily="Arial" FontSize="16"/>
+            <ComboBoxItem Content="View &amp; Edit" FontFamily="Arial" FontSize="16"/>
+        </ComboBox>
     </Grid>
 </Window>
