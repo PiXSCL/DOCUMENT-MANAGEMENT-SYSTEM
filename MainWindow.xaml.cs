@@ -43,7 +43,7 @@ namespace Document_Management_System_with_UI
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Window2 objWindow2 = new Window2();
-            objWindow2.Show();
+            objWindow2.ShowDialog();
         }
 
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
