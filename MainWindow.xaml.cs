@@ -42,9 +42,22 @@ namespace Document_Management_System_with_UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Window1 objWindow1 = new Window1();
-            this.Visibility = Visibility.Hidden; 
-            objWindow1.Show();
+            Window2 objWindow2 = new Window2();
+            objWindow2.Show();
+        }
+
+        private void ShowPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            Passwordtextbox.Text = Password.Password;
+            Password.Visibility = Visibility.Collapsed;
+            Passwordtextbox.Visibility = Visibility.Visible;
+        }
+
+        private void ShowPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Password.Password = Passwordtextbox.Text;
+            Passwordtextbox.Visibility = Visibility.Collapsed;
+            Password.Visibility = Visibility.Visible;
         }
     }
 }

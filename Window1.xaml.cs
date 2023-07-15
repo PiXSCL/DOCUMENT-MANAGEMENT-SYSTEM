@@ -78,7 +78,7 @@ namespace Document_Management_System_with_UI
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
             MainWindow objMainWindow = new MainWindow();
-            this.Visibility = Visibility.Hidden;
+            Window.GetWindow(this).Close();
             objMainWindow.Show();
         }
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)

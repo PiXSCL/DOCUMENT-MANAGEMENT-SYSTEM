@@ -1,0 +1,24 @@
+﻿<Window x:Class="Document_Management_System_with_UI.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Document_Management_System_with_UI"
+        mc:Ignorable="d"
+        Title="Admin Verification" Height="78" Width="164" ResizeMode="NoResize"
+        WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFEE9E1C"/>
+            <GradientStop Color="#FFDAED0A" Offset="1"/>
+            <GradientStop Color="#FE09C3A6" Offset="0"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Label Content="Admin Verification" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-2,0,0"/>
+        <Label Content="Secret Code" HorizontalAlignment="Center" Height="23" Margin="0,16,0,0" VerticalAlignment="Top" Width="66" FontFamily="Arial" FontSize="10"/>
+        <PasswordBox x:Name="Admin" HorizontalAlignment="Center" Height="20" Margin="0,34,0,0" VerticalAlignment="Top" Width="128" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <Button Content="Verify" HorizontalAlignment="Center" Height="19" Margin="0,59,0,0" VerticalAlignment="Top" Width="60" Background="#FF10D0DD" Click="Button_Click"/>
+
+    </Grid>
+</Window>
