@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MySql.Data.MySqlClient;
 
 namespace Document_Management_System_with_UI
 {
@@ -25,19 +26,48 @@ namespace Document_Management_System_with_UI
             InitializeComponent();
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-             
-        }
+        MySqlConnection connection = new MySqlConnection("datasource=localhost;port=3306;username=root;password=ra05182002");
 
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            string username = Username.Text;
+            string password = Password.Password;
 
+            string selectQuery = "SELECT * FROM dms.user WHERE username = @Username AND password = @Password";
+
+            MySqlCommand command = new MySqlCommand(selectQuery, connection);
+
+            command.Parameters.AddWithValue("@Username", username);
+            command.Parameters.AddWithValue("@Password", password);
+
+            try
+            {
+                connection.Open();
+
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    Window3 objWindow3 = new Window3(username);
+                    this.Visibility = Visibility.Hidden;
+                    objWindow3.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Invalid username or password. Please try again.");
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -59,5 +89,11 @@ namespace Document_Management_System_with_UI
             Passwordtextbox.Visibility = Visibility.Collapsed;
             Password.Visibility = Visibility.Visible;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
+
 }

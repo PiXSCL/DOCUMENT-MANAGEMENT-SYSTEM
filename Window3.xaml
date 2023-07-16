@@ -1,0 +1,25 @@
+﻿<Window x:Class="Document_Management_System_with_UI.Window3"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Document_Management_System_with_UI"
+        mc:Ignorable="d"
+        Title="Document Management System" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="-48,0,-70,0">
+        <Rectangle HorizontalAlignment="Left" Height="434" Stroke="Black" VerticalAlignment="Center" Width="860" RadiusX="24.133" RadiusY="24.133" Margin="23,0,0,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFE3D302" Offset="1"/>
+                    <GradientStop Color="#FFE7E754" Offset="0.025"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid HorizontalAlignment="Left" Height="73" Margin="23,10,0,0" VerticalAlignment="Top" Width="800">
+            <Image Margin="51,5,684,5" Source="/user icon.png" Stretch="Fill"/>
+        </Grid>
+        <Label x:Name="UserLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="152,46,0,0" VerticalAlignment="Top" Width="120" FontFamily="Palatino Linotype" FontSize="18"/>
+
+    </Grid>
+</Window>
