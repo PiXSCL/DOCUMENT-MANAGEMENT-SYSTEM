@@ -33,5 +33,27 @@ namespace Document_Management_System_with_UI
             loggedInUsername = username;
             UserLabel.Content = loggedInUsername;
         }
+
+        private void Home_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void VH_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void MU_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Logout_Button_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow objMainWindow = new MainWindow();
+            Window.GetWindow(this).Close();
+            objMainWindow.Show();
+        }
     }
 }

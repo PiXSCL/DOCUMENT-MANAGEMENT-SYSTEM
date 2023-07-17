@@ -7,7 +7,15 @@
         mc:Ignorable="d"
         Title="Document Management System" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid Margin="-48,0,-70,0">
-        <Rectangle HorizontalAlignment="Left" Height="434" Stroke="Black" VerticalAlignment="Center" Width="860" RadiusX="24.133" RadiusY="24.133" Margin="23,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
+            <ColumnDefinition Width="449*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="214*"/>
+        </Grid.RowDefinitions>
+        <Rectangle HorizontalAlignment="Left" Height="452" Stroke="Black" VerticalAlignment="Top" Width="860" RadiusX="24.133" RadiusY="24.133" Margin="3,-18,0,0" Grid.RowSpan="2" Grid.Column="1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -16,10 +24,65 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Grid HorizontalAlignment="Left" Height="73" Margin="23,10,0,0" VerticalAlignment="Top" Width="800">
-            <Image Margin="51,5,684,5" Source="/user icon.png" Stretch="Fill"/>
+        <Rectangle HorizontalAlignment="Left" Height="111" Margin="3,0,0,0" Stroke="#FF04168B" VerticalAlignment="Top" Width="244" Opacity="0.9" Grid.RowSpan="2" Grid.Column="1">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF0BDDE3" Offset="1"/>
+                    <GradientStop Color="#FE20D4DA" Offset="0.003"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle HorizontalAlignment="Left" Height="323" Margin="3,105,0,0" Stroke="#FF04168B" VerticalAlignment="Top" Width="244" Grid.Row="1" Grid.Column="1">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF1330BF" Offset="1"/>
+                    <GradientStop Color="#FE06E2C7" Offset="0"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid HorizontalAlignment="Left" Height="424" Margin="3,4,0,0" VerticalAlignment="Top" Width="244" Grid.Row="1" Grid.Column="1">
+            <Image Margin="44,10,122,336" Source="/user icon.png" Stretch="Fill"/>
+            <Label x:Name="UserLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="122,51,0,0" VerticalAlignment="Top" Width="120" FontFamily="Palatino Linotype" FontSize="18" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </Grid>
-        <Label x:Name="UserLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="152,46,0,0" VerticalAlignment="Top" Width="120" FontFamily="Palatino Linotype" FontSize="18"/>
+        <Grid HorizontalAlignment="Left" Height="63" Margin="22,105,0,0" VerticalAlignment="Top" Width="225" Grid.Column="1" Grid.Row="1">
+            <Button x:Name="Home" Content="Home" HorizontalAlignment="Left" Margin="25,4,0,0" VerticalAlignment="Top" Height="86" Width="200" Click="Home_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Bahnschrift" FontSize="25"/>
+            <Image HorizontalAlignment="Left" Height="59" Margin="25,4,0,0" VerticalAlignment="Top" Width="82" Source="/home_FILL0_wght400_GRAD0_opsz48.png"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="77" Margin="22,178,0,0" VerticalAlignment="Top" Width="225" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="166*"/>
+                <ColumnDefinition Width="59*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Version_History" Content="Version&#xD;&#xA;History&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,2,0,0" VerticalAlignment="Top" Height="86" Width="200" Click="VH_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Bahnschrift" FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="20,10,1,1" Grid.ColumnSpan="2"/>
+            <Image HorizontalAlignment="Left" Height="66" Margin="30,17,0,0" VerticalAlignment="Top" Width="53" Source="/history_FILL0_wght400_GRAD0_opsz48.png"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="63" Margin="22,260,0,0" VerticalAlignment="Top" Width="225" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="166*"/>
+                <ColumnDefinition Width="59*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Manage_Users" Content="Manage&#xD;&#xA;Users" HorizontalAlignment="Left" Margin="25,0,0,0" VerticalAlignment="Center" Height="86" Width="200" Click="MU_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Bahnschrift" FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="20,10,1,1" Grid.ColumnSpan="2"/>
+            <Image HorizontalAlignment="Left" Height="54" Margin="29,9,0,0" VerticalAlignment="Top" Width="73" Source="/manage_accounts_FILL0_wght400_GRAD0_opsz48.png"/>
+        </Grid>
+        <Grid HorizontalAlignment="Left" Height="60" Margin="22,335,0,0" VerticalAlignment="Top" Width="225" Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="166*"/>
+                <ColumnDefinition Width="59*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="Logout" Content="Logout" HorizontalAlignment="Left" Margin="20,-6,10,0" VerticalAlignment="Top" Height="86" Width="200" Click="Logout_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Bahnschrift" FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Padding="20,10,1,1" Grid.ColumnSpan="2"/>
+            <Image HorizontalAlignment="Left" Height="70" Margin="31,11,0,0" VerticalAlignment="Top" Width="52" Source="/logout_FILL0_wght400_GRAD0_opsz48.png"/>
+        </Grid>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="108" Margin="247,3,0,0" Grid.RowSpan="2" Stroke="#FFD0860E" VerticalAlignment="Top" Width="616" Fill="#FFD0860E" Opacity="0.4"/>
+        <Label Grid.Column="1" Content="Document Management System" HorizontalAlignment="Left" Height="63" Margin="269,4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="571" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Blackadder ITC" FontSize="40">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FF0D6F9B" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
 
     </Grid>
 </Window>

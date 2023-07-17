@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="history_FILL0_wght400_GRAD0_opsz48.png" />
+    <None Remove="home_FILL0_wght400_GRAD0_opsz48.png" />
+    <None Remove="logout_FILL0_wght400_GRAD0_opsz48.png" />
+    <None Remove="manage_accounts_FILL0_wght400_GRAD0_opsz48.png" />
     <None Remove="password icon.png" />
     <None Remove="password.png" />
     <None Remove="user icon.jpg" />
@@ -20,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="history_FILL0_wght400_GRAD0_opsz48.png" />
+    <Resource Include="home_FILL0_wght400_GRAD0_opsz48.png" />
+    <Resource Include="logout_FILL0_wght400_GRAD0_opsz48.png" />
+    <Resource Include="manage_accounts_FILL0_wght400_GRAD0_opsz48.png" />
     <Resource Include="password icon.png" />
     <Resource Include="password.png" />
     <Resource Include="user icon.jpg" />
