@@ -44,7 +44,7 @@
         </Rectangle>
         <Grid HorizontalAlignment="Left" Height="424" Margin="3,4,0,0" VerticalAlignment="Top" Width="244" Grid.Row="1" Grid.Column="1">
             <Image Margin="44,10,122,336" Source="/user icon.png" Stretch="Fill"/>
-            <Label x:Name="UserLabel" Content="" HorizontalAlignment="Left" Height="37" Margin="122,51,0,0" VerticalAlignment="Top" Width="120" FontFamily="Palatino Linotype" FontSize="18" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label x:Name="UserLabel" Content="" HorizontalAlignment="Left" Height="78" Margin="122,10,0,0" VerticalAlignment="Top" Width="120" FontFamily="Bahnschrift" FontSize="22" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </Grid>
         <Grid HorizontalAlignment="Left" Height="63" Margin="22,105,0,0" VerticalAlignment="Top" Width="225" Grid.Column="1" Grid.Row="1">
             <Button x:Name="Home" Content="Home" HorizontalAlignment="Left" Margin="25,4,0,0" VerticalAlignment="Top" Height="86" Width="200" Click="Home_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Bahnschrift" FontSize="25"/>
@@ -75,7 +75,7 @@
             <Image HorizontalAlignment="Left" Height="70" Margin="31,11,0,0" VerticalAlignment="Top" Width="52" Source="/logout_FILL0_wght400_GRAD0_opsz48.png"/>
         </Grid>
         <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="108" Margin="247,3,0,0" Grid.RowSpan="2" Stroke="#FFD0860E" VerticalAlignment="Top" Width="616" Fill="#FFD0860E" Opacity="0.4"/>
-        <Label Grid.Column="1" Content="Document Management System" HorizontalAlignment="Left" Height="63" Margin="269,4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="571" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Blackadder ITC" FontSize="40">
+        <Label Grid.Column="1" Content="Document Management System" HorizontalAlignment="Left" Height="66" Margin="269,4,0,0" Grid.Row="1" VerticalAlignment="Top" Width="571" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Blackadder ITC" FontSize="40">
             <Label.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -83,6 +83,10 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="62" Margin="252,75,0,0" Grid.Row="1" Stroke="#FFF4C70E" VerticalAlignment="Top" Width="509" Fill="#FFFCF6F6" RadiusX="51.167" RadiusY="51.167"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="272,83,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" Source="/search_FILL0_wght400_GRAD0_opsz48.png"/>
+        <Button x:Name="Search1" Grid.Column="1" Content="Search" HorizontalAlignment="Left" Height="62" Margin="711,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Background="#FF0DDFBF" FontSize="22" FontFamily="Bahnschrift"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="62" Margin="318,75,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="393" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF091219" SelectionTextBrush="#FF0AC8D5" VerticalContentAlignment="Center" Padding="10,0,0,0" FontFamily="Bahnschrift" FontSize="22"/>
 
     </Grid>
 </Window>
