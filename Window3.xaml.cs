@@ -285,14 +285,90 @@ namespace Document_Management_System_with_UI
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            // Get the selected item from the DataGridView
             DataRowView selectedRow = dgvdocument.SelectedItem as DataRowView;
             if (selectedRow != null)
             {
-                // Retrieve the filename from the selected row and implement the edit logic.
                 string filename = selectedRow["filename"].ToString();
-                // Implement the logic to edit the file using the filename.
-                MessageBox.Show($"Editing {filename}.");
+
+                // Check if the user has "View & Edit" access level
+                bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
+
+                if (hasViewAndEditAccess)
+                {
+                    // Get the binary data from the selected row in the database
+                    byte[] fileData = null;
+                    string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+                    string selectQuery = "SELECT data FROM dms.documents WHERE filename = @FileName";
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            connection.Open();
+
+                            using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                            {
+                                command.Parameters.AddWithValue("@FileName", filename);
+                                object result = command.ExecuteScalar();
+                                if (result != null)
+                                {
+                                    fileData = (byte[])result;
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"File '{filename}' not found in the database.");
+                                    return;
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("An error occurred while retrieving the file data: " + ex.Message);
+                            return;
+                        }
+                    }
+
+                    // Create the temp folder if it doesn't exist
+                    string tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+                    Directory.CreateDirectory(tempFolderPath);
+
+                    // Create a temporary file path
+                    string tempFilePath = Path.Combine(tempFolderPath, filename);
+
+                    try
+                    {
+                        // Save the binary data to the temporary file
+                        File.WriteAllBytes(tempFilePath, fileData);
+
+                        // Use Process.Start to open the temporary file with the default associated application (read-only mode)
+                        Process process = new Process();
+                        process.StartInfo = new ProcessStartInfo(tempFilePath)
+                        {
+                            UseShellExecute = true,
+                            Verb = "open",
+                            WindowStyle = ProcessWindowStyle.Maximized
+                        };
+
+                        // Attach the Exited event handler to delete the temporary file after the associated application is closed
+                        process.EnableRaisingEvents = true;
+                        process.Exited += (s, args) =>
+                        {
+                            MessageBox.Show("You are in read-only mode. Any changes done to this file will not be saved.");
+                            // Delete the temporary file after the associated application is closed
+                            File.Delete(tempFilePath);
+                        };
+
+                        process.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred while opening the file: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("You lack the permission to edit this file. Opening in read-only mode.");
+                }
             }
         }
 
