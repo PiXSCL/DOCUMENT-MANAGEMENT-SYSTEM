@@ -198,8 +198,12 @@ namespace Document_Management_System_with_UI
                     }
                 }
 
+                // Create the temp folder if it doesn't exist
+                string tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+                Directory.CreateDirectory(tempFolderPath);
+
                 // Create a temporary file path
-                string tempFilePath = Path.Combine(Path.GetTempPath(), filename);
+                string tempFilePath = Path.Combine(tempFolderPath, filename);
 
                 try
                 {
@@ -207,20 +211,28 @@ namespace Document_Management_System_with_UI
                     File.WriteAllBytes(tempFilePath, fileData);
 
                     // Use Process.Start to open the temporary file with the default associated application (read-only mode)
-                    Process.Start(new ProcessStartInfo(tempFilePath)
+                    Process process = new Process();
+                    process.StartInfo = new ProcessStartInfo(tempFilePath)
                     {
                         UseShellExecute = true,
-                        Verb = "open"
-                    });
+                        Verb = "open",
+                        WindowStyle = ProcessWindowStyle.Maximized
+                    };
+
+                    // Attach the Exited event handler to delete the temporary file after the associated application is closed
+                    process.EnableRaisingEvents = true;
+                    process.Exited += (s, args) =>
+                    {
+                        MessageBox.Show("You are in read-only mode. Any changes done to this file will not be saved.");
+                        // Delete the temporary file after the associated application is closed
+                        File.Delete(tempFilePath);
+                    };
+
+                    process.Start();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("An error occurred while opening the file: " + ex.Message);
-                }
-                finally
-                {
-                    // Delete the temporary file after viewing (optional, but recommended)
-                    File.Delete(tempFilePath);
                 }
             }
         }
