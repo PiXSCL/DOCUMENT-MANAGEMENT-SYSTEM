@@ -99,7 +99,19 @@
                 </MenuItem>
             </Menu>
         </Grid>
-        <DataGrid x:Name="dgvdocument" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="247,124,58,0" IsReadOnly="True" CanUserAddRows="False">
+        <DataGrid x:Name="dgvdocument" Grid.Column="1" Grid.Row="1" Margin="247,124,58,0" IsReadOnly="True" CanUserAddRows="False" AutoGenerateColumns="False">
+            <DataGrid.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF0C13BB"/>
+                    <GradientStop Color="#FF03DDAE" Offset="1"/>
+                </LinearGradientBrush>
+            </DataGrid.BorderBrush>
+            <DataGrid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFFBF90D"/>
+                    <GradientStop Color="#FFB56824" Offset="1"/>
+                </LinearGradientBrush>
+            </DataGrid.Background>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Filename" Binding="{Binding filename}" CanUserResize="False" MinWidth="400" MaxWidth="400"/>
                 <DataGridTextColumn Header="Date Created" Binding="{Binding create_time}" MaxWidth="175" MinWidth="175" CanUserResize="False"/>

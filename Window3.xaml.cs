@@ -64,7 +64,15 @@ namespace Document_Management_System_with_UI
 
     private void Upload_Click(object sender, RoutedEventArgs e)
     {
-        OpenFileDialog dlg = new OpenFileDialog();
+            bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
+
+            if (!hasViewAndEditAccess)
+            {
+                MessageBox.Show("You lack the permission to upload files.");
+                return;
+            }
+
+            OpenFileDialog dlg = new OpenFileDialog();
         if (dlg.ShowDialog() == true)
         {
             string filePath = dlg.FileName;
@@ -116,6 +124,43 @@ namespace Document_Management_System_with_UI
             }
         }
     }
+
+        private bool CheckUserAccessLevel(string username, string requiredAccessLevel)
+        {
+            string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+            string selectQuery = "SELECT accesslevel FROM dms.user WHERE username = @Username";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        object result = command.ExecuteScalar();
+
+                        if (result != null)
+                        {
+                            string userAccessLevel = result.ToString();
+                            if (userAccessLevel == requiredAccessLevel && username == loggedInUsername)
+                            {
+                                return true; // User has the required access level and matches the logged-in username
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while checking the user's access level: " + ex.Message);
+                }
+            }
+
+            return false; // User does not have the required access level or does not match the logged-in username, or an error occurred
+        }
+
+
         private void Window3_Loaded(object sender, EventArgs e)
         {
             LoadData();
