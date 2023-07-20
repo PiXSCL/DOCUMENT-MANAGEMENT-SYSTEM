@@ -13,6 +13,7 @@
     <None Remove="home_FILL0_wght400_GRAD0_opsz48.png" />
     <None Remove="logout_FILL0_wght400_GRAD0_opsz48.png" />
     <None Remove="manage_accounts_FILL0_wght400_GRAD0_opsz48.png" />
+    <None Remove="more_horiz_FILL0_wght400_GRAD0_opsz48.png" />
     <None Remove="password icon.png" />
     <None Remove="password.png" />
     <None Remove="search_FILL0_wght400_GRAD0_opsz48.png" />
@@ -29,11 +30,16 @@
     <Resource Include="home_FILL0_wght400_GRAD0_opsz48.png" />
     <Resource Include="logout_FILL0_wght400_GRAD0_opsz48.png" />
     <Resource Include="manage_accounts_FILL0_wght400_GRAD0_opsz48.png" />
+    <Resource Include="more_horiz_FILL0_wght400_GRAD0_opsz48.png" />
     <Resource Include="password icon.png" />
     <Resource Include="password.png" />
     <Resource Include="search_FILL0_wght400_GRAD0_opsz48.png" />
     <Resource Include="user icon.jpg" />
     <Resource Include="user icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Temp\" />
   </ItemGroup>
 
 </Project>

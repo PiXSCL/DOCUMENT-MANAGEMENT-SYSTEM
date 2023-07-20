@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Document_Management_System_with_UI"
         mc:Ignorable="d"
-        Title="Document Management System" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Document Management System" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window3_Loaded">
     <Grid Margin="-48,0,-70,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -83,10 +83,34 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="62" Margin="252,75,0,0" Grid.Row="1" Stroke="#FFF4C70E" VerticalAlignment="Top" Width="509" Fill="#FFFCF6F6" RadiusX="51.167" RadiusY="51.167"/>
-        <Image Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="272,83,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" Source="/search_FILL0_wght400_GRAD0_opsz48.png"/>
-        <Button x:Name="Search1" Grid.Column="1" Content="Search" HorizontalAlignment="Left" Height="62" Margin="711,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Background="#FF0DDFBF" FontSize="22" FontFamily="Bahnschrift"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="62" Margin="318,75,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="393" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF091219" SelectionTextBrush="#FF0AC8D5" VerticalContentAlignment="Center" Padding="10,0,0,0" FontFamily="Bahnschrift" FontSize="22"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="318,75,0,0" Grid.Row="1" Stroke="#FFF4C70E" VerticalAlignment="Top" Width="443" Fill="#FFFCF6F6" RadiusX="0" RadiusY="0"/>
+        <Image Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="323,78,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" Source="/search_FILL0_wght400_GRAD0_opsz48.png"/>
+        <Button x:Name="Search1" Grid.Column="1" Content="Search" HorizontalAlignment="Left" Height="54" Margin="711,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Background="#FF0DDFBF" FontSize="22" FontFamily="Bahnschrift"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="374,75,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="337" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF091219" SelectionTextBrush="#FF0AC8D5" VerticalContentAlignment="Center" Padding="10,0,0,0" FontFamily="Bahnschrift" FontSize="22"/>
 
+        <Grid Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="247,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71">
+            <Menu x:Name="Menu" Background="#FFE2D7D7" BorderBrush="Black">
+                <MenuItem Header="" Height="55" Width="69">
+                    <MenuItem.Background>
+                        <ImageBrush ImageSource="/more_horiz_FILL0_wght400_GRAD0_opsz48.png"/>
+                    </MenuItem.Background>
+                    <MenuItem x:Name="New" Header="New Document"/>
+                    <MenuItem x:Name="Upload" Header="Upload Document" Click="Upload_Click"/>
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <DataGrid x:Name="dgvdocument" Grid.Column="1" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="247,124,58,0" IsReadOnly="True" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Filename" Binding="{Binding filename}" CanUserResize="False" MinWidth="400" MaxWidth="400"/>
+                <DataGridTextColumn Header="Date Created" Binding="{Binding create_time}" MaxWidth="175" MinWidth="175" CanUserResize="False"/>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Click="Open_Click"/>
+                    <MenuItem Header="Edit" Click="Edit_Click"/>
+                    <MenuItem Header="Delete" Click="Delete_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </Window>

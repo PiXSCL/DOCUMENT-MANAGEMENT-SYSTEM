@@ -79,7 +79,7 @@ namespace Document_Management_System_with_UI
         {
             MainWindow objMainWindow = new MainWindow();
             Window.GetWindow(this).Close();
-            objMainWindow.Show();
+            objMainWindow.Show(); 
         }
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
         {
