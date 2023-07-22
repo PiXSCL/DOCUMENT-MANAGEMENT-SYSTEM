@@ -69,7 +69,7 @@ namespace Document_Management_System_with_UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            RegisterWindow objWindow2 = new RegisterWindow();
+            AdminVerification objWindow2 = new AdminVerification();
             objWindow2.ShowDialog();
         }
 
