@@ -17,9 +17,9 @@ namespace Document_Management_System_with_UI
     /// <summary>
     /// Interaction logic for Window2.xaml
     /// </summary>
-    public partial class Window2 : Window
+    public partial class AdminVerification : Window
     {
-        public Window2()
+        public AdminVerification()
         {
             InitializeComponent();
         }
@@ -28,14 +28,14 @@ namespace Document_Management_System_with_UI
         {
             if (Admin.Password == "secret")
             {
-                Window1 objWindow1 = new Window1();
+                RegisterWindow objWindow1 = new RegisterWindow();
                 Window.GetWindow(this).Close();
                 objWindow1.Show();
 
-                MainWindow mainWindow = Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
-                if (mainWindow != null)
+                LoginWindow loginWindow = Application.Current.Windows.OfType<LoginWindow>().FirstOrDefault();
+                if (loginWindow != null)
                 {
-                    mainWindow.Close();
+                    loginWindow.Close();
                 }
             }
             else

@@ -19,9 +19,9 @@ namespace Document_Management_System_with_UI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
@@ -49,7 +49,7 @@ namespace Document_Management_System_with_UI
 
                 if (reader.HasRows)
                 {
-                    Window3 objWindow3 = new Window3(username);
+                    HomeWindow objWindow3 = new HomeWindow(username);
                     this.Visibility = Visibility.Hidden;
                     objWindow3.Show();
                 }
@@ -72,7 +72,7 @@ namespace Document_Management_System_with_UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Window2 objWindow2 = new Window2();
+            RegisterWindow objWindow2 = new RegisterWindow();
             objWindow2.ShowDialog();
         }
 

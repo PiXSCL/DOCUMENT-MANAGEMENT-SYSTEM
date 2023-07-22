@@ -18,9 +18,9 @@ namespace Document_Management_System_with_UI
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class RegisterWindow : Window
     {
-        public Window1()
+        public RegisterWindow()
         {
             InitializeComponent();
         }
@@ -77,7 +77,7 @@ namespace Document_Management_System_with_UI
 
         private void Login_Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow objMainWindow = new MainWindow();
+            LoginWindow objMainWindow = new LoginWindow();
             Window.GetWindow(this).Close();
             objMainWindow.Show(); 
         }

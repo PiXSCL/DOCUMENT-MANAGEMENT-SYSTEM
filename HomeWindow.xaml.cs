@@ -23,16 +23,16 @@ namespace Document_Management_System_with_UI
     /// <summary>
     /// Interaction logic for Window3.xaml
     /// </summary>
-    public partial class Window3 : Window
+    public partial class HomeWindow : Window
     {
-        public Window3()
+        public HomeWindow()
         {
             InitializeComponent();
         }
 
         private string loggedInUsername;
 
-        public Window3(string username)
+        public HomeWindow(string username)
         {
             InitializeComponent();
 
@@ -57,7 +57,7 @@ namespace Document_Management_System_with_UI
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow objMainWindow = new MainWindow();
+            LoginWindow objMainWindow = new LoginWindow();
             Window.GetWindow(this).Close();
             objMainWindow.Show();
         }
