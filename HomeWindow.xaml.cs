@@ -6,6 +6,8 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +27,7 @@ namespace Document_Management_System_with_UI
     /// </summary>
     public partial class HomeWindow : Window
     {
+        private int documentId;
         public HomeWindow()
         {
             InitializeComponent();
@@ -298,7 +301,7 @@ namespace Document_Management_System_with_UI
                     // Get the binary data from the selected row in the database
                     byte[] fileData = null;
                     string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
-                    string selectQuery = "SELECT data FROM dms.documents WHERE filename = @FileName";
+                    string selectQuery = "SELECT documentId, data FROM dms.documents WHERE filename = @FileName";
 
                     using (MySqlConnection connection = new MySqlConnection(connectionString))
                     {
@@ -309,15 +312,18 @@ namespace Document_Management_System_with_UI
                             using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                             {
                                 command.Parameters.AddWithValue("@FileName", filename);
-                                object result = command.ExecuteScalar();
-                                if (result != null)
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    fileData = (byte[])result;
-                                }
-                                else
-                                {
-                                    MessageBox.Show($"File '{filename}' not found in the database.");
-                                    return;
+                                    if (reader.Read())
+                                    {
+                                        documentId = reader.GetInt32("documentid");
+                                        fileData = (byte[])reader["data"];
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show($"File '{filename}' not found in the database.");
+                                        return;
+                                    }
                                 }
                             }
                         }
@@ -340,7 +346,7 @@ namespace Document_Management_System_with_UI
                         // Save the binary data to the temporary file
                         File.WriteAllBytes(tempFilePath, fileData);
 
-                        // Use Process.Start to open the temporary file with the default associated application (read-only mode)
+                        // Use Process.Start to open the temporary file with the default associated application (read-write mode)
                         Process process = new Process();
                         process.StartInfo = new ProcessStartInfo(tempFilePath)
                         {
@@ -349,13 +355,58 @@ namespace Document_Management_System_with_UI
                             WindowStyle = ProcessWindowStyle.Maximized
                         };
 
-                        // Attach the Exited event handler to delete the temporary file after the associated application is closed
+                        // Attach the Exited event handler to update the file data in the database after the associated application is closed
                         process.EnableRaisingEvents = true;
                         process.Exited += (s, args) =>
                         {
-                            MessageBox.Show("You are in read-only mode. Any changes done to this file will not be saved.");
-                            // Delete the temporary file after the associated application is closed
-                            File.Delete(tempFilePath);
+                            Dispatcher.Invoke(() =>
+                            {
+                                // Read the modified file data (if any)
+                                byte[] modifiedFileData = File.ReadAllBytes(tempFilePath);
+
+                                // Get the author as the loggedInUsername
+                                string author = loggedInUsername;
+
+                                // Insert the old and new version into the version table
+                                InsertVersion(documentId, filename, author, fileData, "Before Update");
+                                InsertVersion(documentId, filename, author, modifiedFileData, "After Update");
+
+                                // Update the file data in the database
+                                string updateQuery = "UPDATE dms.documents SET data = @FileData WHERE filename = @FileName";
+
+                                string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+                                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                                {
+                                    try
+                                    {
+                                        connection.Open();
+
+                                        using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
+                                        {
+                                            command.Parameters.AddWithValue("@FileData", modifiedFileData);
+                                            command.Parameters.AddWithValue("@FileName", filename);
+
+                                            int rowsAffected = command.ExecuteNonQuery();
+                                            if (rowsAffected > 0)
+                                            {
+                                                MessageBox.Show("File data updated successfully.");
+                                                LoadData();
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show("File update failed.");
+                                            }
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        MessageBox.Show("An error occurred while updating the file: " + ex.Message);
+                                    }
+                                }
+
+                                // Delete the temporary file after the associated application is closed
+                                File.Delete(tempFilePath);
+                            });
                         };
 
                         process.Start();
@@ -367,10 +418,53 @@ namespace Document_Management_System_with_UI
                 }
                 else
                 {
-                    MessageBox.Show("You lack the permission to edit this file. Opening in read-only mode.");
+                    MessageBox.Show("You lack the permission to edit files.");
                 }
             }
         }
+
+
+        private void InsertVersion(int fileId, string filename, string author, byte[] fileData, string description)
+        {
+
+            // Insert the data into the version table
+            string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+            string insertVersionQuery = "INSERT INTO dms.versions (file_id, filename, author, data, description) VALUES (@FileId, @FileName, @Author, @FileData, @Description)";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(insertVersionQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@FileId", fileId);
+                        command.Parameters.AddWithValue("@FileName", filename);
+                        command.Parameters.AddWithValue("@Author", author);
+                        command.Parameters.AddWithValue("@FileData", fileData);
+                        command.Parameters.AddWithValue("@Description", description);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Version inserted successfully.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Version insert failed.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while inserting the version: " + ex.Message);
+                }
+            }
+        }
+
+
+
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
