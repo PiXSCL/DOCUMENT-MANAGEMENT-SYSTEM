@@ -112,6 +112,21 @@ namespace Document_Management_System_with_UI
                             int rowsAffected = command.ExecuteNonQuery();
                             if (rowsAffected > 0)
                             {
+                                // Fetch the inserted file's id from the database
+                                int fileId;
+                                string getFileIdQuery = "SELECT MAX(documentid) FROM dms.documents";
+
+                                using (MySqlCommand getFileIdCommand = new MySqlCommand(getFileIdQuery, connection))
+                                {
+                                    fileId = Convert.ToInt32(getFileIdCommand.ExecuteScalar());
+                                }
+
+                                // Insert the uploaded file into the versions table with description "Uploaded"
+                                string author = loggedInUsername;
+                                string description = "Uploaded";
+
+                                InsertVersion(fileId, fileName, author, fileData, description);
+
                                 MessageBox.Show("File uploaded successfully.");
                                 LoadData();
                             }
@@ -128,6 +143,7 @@ namespace Document_Management_System_with_UI
                 }
             }
         }
+
 
         private bool CheckUserAccessLevel(string username, string requiredAccessLevel)
         {
@@ -503,9 +519,53 @@ namespace Document_Management_System_with_UI
 
                     if (result == MessageBoxResult.Yes)
                     {
+                        // Get the file data from the 'documents' table before deletion
+                        byte[] fileData = null;
+                        int fileId = -1; // Default value to indicate fileId is not found
+
+                        string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+                        string selectQuery = "SELECT documentid, data FROM dms.documents WHERE filename = @FileName";
+
+                        using (MySqlConnection connection = new MySqlConnection(connectionString))
+                        {
+                            try
+                            {
+                                connection.Open();
+
+                                using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
+                                {
+                                    command.Parameters.AddWithValue("@FileName", filename);
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        if (reader.Read())
+                                        {
+                                            fileId = reader.GetInt32("documentid");
+                                            fileData = (byte[])reader["data"];
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show($"File '{filename}' not found in the database.");
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("An error occurred while retrieving the file data: " + ex.Message);
+                                return;
+                            }
+                        }
+
                         // Perform the delete operation here
                         if (DeleteFileFromDatabase(filename))
                         {
+                            // Insert the deletion into the versions table
+                            string author = loggedInUsername;
+                            string description = "Deleted";
+
+                            InsertDeletedVersion(fileId, filename, author, fileData, description);
+
                             MessageBox.Show("File deleted successfully.");
                             LoadData();
                         }
@@ -521,6 +581,45 @@ namespace Document_Management_System_with_UI
                 }
             }
         }
+
+        private void InsertDeletedVersion(int fileId, string filename, string author, byte[] fileData, string description)
+        {
+            // Insert the data into the version table
+            string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+            string insertVersionQuery = "INSERT INTO dms.versions (file_id, filename, author, data, description) VALUES (@FileId, @FileName, @Author, @FileData, @Description)";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(insertVersionQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@FileId", fileId);
+                        command.Parameters.AddWithValue("@FileName", filename);
+                        command.Parameters.AddWithValue("@Author", author);
+                        command.Parameters.AddWithValue("@FileData", fileData);
+                        command.Parameters.AddWithValue("@Description", description);
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("Deletion record inserted successfully.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Deletion record insert failed.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while inserting the deletion record: " + ex.Message);
+                }
+            }
+        }
+
 
         private bool DeleteFileFromDatabase(string filename)
         {
@@ -630,7 +729,7 @@ namespace Document_Management_System_with_UI
                                                     using (MySqlCommand versionCommand = new MySqlCommand(insertVersionQuery, connection))
                                                     {
                                                         versionCommand.Parameters.AddWithValue("@FileId", documentId);
-                                                        versionCommand.Parameters.AddWithValue("@FileName", newFileName);
+                                                        versionCommand.Parameters.AddWithValue("@FileName", newFileName + ".docx");
                                                         versionCommand.Parameters.AddWithValue("@Author", loggedInUsername);
                                                         versionCommand.Parameters.AddWithValue("@FileData", modifiedFileData);
                                                         versionCommand.Parameters.AddWithValue("@Description", "Created");
