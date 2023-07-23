@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.VisualBasic;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
@@ -65,8 +66,8 @@ namespace Document_Management_System_with_UI
             objMainWindow.Show();
         }
 
-    private void Upload_Click(object sender, RoutedEventArgs e)
-    {
+        private void Upload_Click(object sender, RoutedEventArgs e)
+        {
             bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
 
             if (!hasViewAndEditAccess)
@@ -76,57 +77,57 @@ namespace Document_Management_System_with_UI
             }
 
             OpenFileDialog dlg = new OpenFileDialog();
-        if (dlg.ShowDialog() == true)
-        {
-            string filePath = dlg.FileName;
-
-            // Read the binary data of the selected file
-            byte[] fileData;
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            if (dlg.ShowDialog() == true)
             {
-                fileData = new byte[fileStream.Length];
-                fileStream.Read(fileData, 0, fileData.Length);
-            }
+                string filePath = dlg.FileName;
 
-            // Get the filename and extension
-            string fileName = Path.GetFileName(filePath);
-            string fileExtension = Path.GetExtension(filePath);
-
-            // Insert the data into the database
-            string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
-            string insertQuery = "INSERT INTO dms.documents (filename, data, extension) VALUES (@FileName, @FileData, @FileExtension)";
-
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
-            {
-                try
+                // Read the binary data of the selected file
+                byte[] fileData;
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    connection.Open();
+                    fileData = new byte[fileStream.Length];
+                    fileStream.Read(fileData, 0, fileData.Length);
+                }
 
-                    using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                // Get the filename and extension
+                string fileName = Path.GetFileName(filePath);
+                string fileExtension = Path.GetExtension(filePath);
+
+                // Insert the data into the database
+                string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+                string insertQuery = "INSERT INTO dms.documents (filename, data, extension) VALUES (@FileName, @FileData, @FileExtension)";
+
+                using (MySqlConnection connection = new MySqlConnection(connectionString))
+                {
+                    try
                     {
-                        command.Parameters.AddWithValue("@FileName", fileName);
-                        command.Parameters.AddWithValue("@FileData", fileData);
-                        command.Parameters.AddWithValue("@FileExtension", fileExtension);
+                        connection.Open();
 
-                        int rowsAffected = command.ExecuteNonQuery();
-                        if (rowsAffected > 0)
+                        using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                         {
-                            MessageBox.Show("File uploaded successfully.");
-                            LoadData();
-                        }
-                        else
-                        {
-                            MessageBox.Show("File upload failed.");
+                            command.Parameters.AddWithValue("@FileName", fileName);
+                            command.Parameters.AddWithValue("@FileData", fileData);
+                            command.Parameters.AddWithValue("@FileExtension", fileExtension);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+                            if (rowsAffected > 0)
+                            {
+                                MessageBox.Show("File uploaded successfully.");
+                                LoadData();
+                            }
+                            else
+                            {
+                                MessageBox.Show("File upload failed.");
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred: " + ex.Message);
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred: " + ex.Message);
+                    }
                 }
             }
         }
-    }
 
         private bool CheckUserAccessLevel(string username, string requiredAccessLevel)
         {
@@ -169,10 +170,16 @@ namespace Document_Management_System_with_UI
             LoadData();
         }
 
-        private void LoadData()
+        private void LoadData(string searchText = null)
         {
             string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
             string selectQuery = "SELECT filename, create_time FROM dms.documents";
+
+            // If there's a search text, modify the SELECT query to include the WHERE clause
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                selectQuery += " WHERE filename LIKE @SearchText";
+            }
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -182,6 +189,12 @@ namespace Document_Management_System_with_UI
 
                     using (MySqlCommand command = new MySqlCommand(selectQuery, connection))
                     {
+                        // If there's a search text, add the parameter to the command
+                        if (!string.IsNullOrWhiteSpace(searchText))
+                        {
+                            command.Parameters.AddWithValue("@SearchText", $"%{searchText}%");
+                        }
+
                         // Create a DataTable to hold the data from the database
                         DataTable dataTable = new DataTable();
 
@@ -195,7 +208,8 @@ namespace Document_Management_System_with_UI
                         }
                         else
                         {
-                            MessageBox.Show("Currently there's no Document");
+                            dgvdocument.ItemsSource = null;
+                            MessageBox.Show("No documents found.");
                         }
                     }
                 }
@@ -205,6 +219,14 @@ namespace Document_Management_System_with_UI
                 }
             }
         }
+
+        private void SearchChange(object sender, TextChangedEventArgs e)
+        {
+            string searchText = SearchTextBox.Text.Trim();
+            LoadData(searchText);
+        }
+
+
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
@@ -463,19 +485,198 @@ namespace Document_Management_System_with_UI
             }
         }
 
-
-
-
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            // Get the selected item from the DataGridView
             DataRowView selectedRow = dgvdocument.SelectedItem as DataRowView;
             if (selectedRow != null)
             {
-                // Retrieve the filename from the selected row and implement the delete logic.
+                // Retrieve the filename from the selected row
                 string filename = selectedRow["filename"].ToString();
-                // Implement the logic to delete the file using the filename.
-                MessageBox.Show($"Deleting {filename}.");
+
+                // Check if the user has "View & Edit" access level
+                bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
+
+                if (hasViewAndEditAccess)
+                {
+                    // Ask for confirmation using a MessageBox
+                    MessageBoxResult result = MessageBox.Show($"Are you sure you want to delete the file '{filename}'?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        // Perform the delete operation here
+                        if (DeleteFileFromDatabase(filename))
+                        {
+                            MessageBox.Show("File deleted successfully.");
+                            LoadData();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to delete the file.");
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("You lack the permission to delete files.");
+                }
+            }
+        }
+
+        private bool DeleteFileFromDatabase(string filename)
+        {
+            // Implement the logic to delete the file using the filename from the database
+            // Here, you should perform a DELETE query to remove the file from the 'documents' table
+            string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+            string deleteQuery = "DELETE FROM dms.documents WHERE filename = @FileName";
+
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@FileName", filename);
+                        int rowsAffected = command.ExecuteNonQuery();
+
+                        // Return true if the delete operation was successful
+                        return rowsAffected > 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred while deleting the file: " + ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        private void New_Click(object sender, RoutedEventArgs e)
+        {
+            bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
+
+            if (!hasViewAndEditAccess)
+            {
+                MessageBox.Show("You lack the permission to create new documents.");
+                return;
+            }
+            else
+            {
+                // Show a dialog to get the new document's filename from the user
+                string newFileName = Interaction.InputBox("Enter the new document's filename:", "New Document", "");
+
+                // Check if the user entered a valid filename and didn't cancel the input
+                if (!string.IsNullOrWhiteSpace(newFileName))
+                {
+                    // Create the temp folder if it doesn't exist
+                    string tempFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "Temp");
+                    Directory.CreateDirectory(tempFolderPath);
+
+                    // Create a temporary file path with the entered filename and a default extension (e.g., .txt)
+                    string tempFilePath = Path.Combine(tempFolderPath, newFileName + ".docx");
+
+                    try
+                    {
+                        // Create an empty file with the entered filename in the temporary folder
+                        File.Create(tempFilePath).Close();
+
+                        // Use Process.Start to open the temporary file with the default associated application (read-write mode)
+                        Process process = new Process();
+                        process.StartInfo = new ProcessStartInfo(tempFilePath)
+                        {
+                            UseShellExecute = true,
+                            Verb = "open",
+                            WindowStyle = ProcessWindowStyle.Maximized
+                        };
+
+                        // Attach the Exited event handler to check if the file has been modified after the associated application is closed
+                        process.EnableRaisingEvents = true;
+                        process.Exited += (s, args) =>
+                        {
+                            Dispatcher.Invoke(() =>
+                            {
+                                // Check if the file has been modified (if the file size is greater than 0)
+                                if (new FileInfo(tempFilePath).Length > 0)
+                                {
+                                    // Read the modified file data
+                                    byte[] modifiedFileData = File.ReadAllBytes(tempFilePath);
+
+                                    // Save the new document data in the database
+                                    string connectionString = "datasource=localhost;port=3306;username=root;password=ra05182002";
+                                    string insertDocumentQuery = "INSERT INTO dms.documents (filename, data, extension) VALUES (@FileName, @FileData, @Extension)";
+                                    string insertVersionQuery = "INSERT INTO dms.versions (file_id, filename, author, data, description) VALUES (@FileId, @FileName, @Author, @FileData, @Description)";
+
+                                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                                    {
+                                        try
+                                        {
+                                            connection.Open();
+
+                                            // Insert the document data into the documents table
+                                            using (MySqlCommand command = new MySqlCommand(insertDocumentQuery, connection))
+                                            {
+                                                command.Parameters.AddWithValue("@FileName", newFileName + ".docx");
+                                                command.Parameters.AddWithValue("@FileData", modifiedFileData);
+                                                command.Parameters.AddWithValue("@Extension", ".docx"); // You can change this default extension as needed
+
+                                                int rowsAffected = command.ExecuteNonQuery();
+                                                if (rowsAffected > 0)
+                                                {
+                                                    // Get the inserted document ID
+                                                    int documentId = (int)command.LastInsertedId;
+
+                                                    // Insert the version data into the versions table
+                                                    using (MySqlCommand versionCommand = new MySqlCommand(insertVersionQuery, connection))
+                                                    {
+                                                        versionCommand.Parameters.AddWithValue("@FileId", documentId);
+                                                        versionCommand.Parameters.AddWithValue("@FileName", newFileName);
+                                                        versionCommand.Parameters.AddWithValue("@Author", loggedInUsername);
+                                                        versionCommand.Parameters.AddWithValue("@FileData", modifiedFileData);
+                                                        versionCommand.Parameters.AddWithValue("@Description", "Created");
+
+                                                        int versionRowsAffected = versionCommand.ExecuteNonQuery();
+                                                        if (versionRowsAffected > 0)
+                                                        {
+                                                            MessageBox.Show("New document created and saved successfully.");
+                                                            LoadData();
+                                                        }
+                                                        else
+                                                        {
+                                                            MessageBox.Show("Failed to save the new document.");
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    MessageBox.Show("Failed to save the new document.");
+                                                }
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show("An error occurred while saving the new document: " + ex.Message);
+                                        }
+                                    }
+                                }
+
+                                // Delete the temporary file after the associated application is closed
+                                File.Delete(tempFilePath);
+                            });
+                        };
+
+                        // Start the associated application to allow the user to edit the new document
+                        process.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("An error occurred while creating the new document: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid filename. Please enter a valid filename.");
+                }
             }
         }
     }

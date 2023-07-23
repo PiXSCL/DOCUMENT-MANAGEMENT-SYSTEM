@@ -28,9 +28,9 @@ namespace Document_Management_System_with_UI
         {
             if (Admin.Password == "secret")
             {
-                RegisterWindow objWindow1 = new RegisterWindow();
+                RegisterWindow objRegister = new RegisterWindow();
                 Window.GetWindow(this).Close();
-                objWindow1.Show();
+                objRegister.Show();
 
                 LoginWindow loginWindow = Application.Current.Windows.OfType<LoginWindow>().FirstOrDefault();
                 if (loginWindow != null)

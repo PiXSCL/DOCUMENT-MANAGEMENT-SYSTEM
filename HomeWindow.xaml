@@ -83,10 +83,9 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="318,75,0,0" Grid.Row="1" Stroke="#FFF4C70E" VerticalAlignment="Top" Width="443" Fill="#FFFCF6F6" RadiusX="0" RadiusY="0"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="318,75,0,0" Grid.Row="1" Stroke="#FFF4C70E" VerticalAlignment="Top" Width="522" Fill="#FFFCF6F6" RadiusX="0" RadiusY="0"/>
         <Image Grid.Column="1" HorizontalAlignment="Left" Height="46" Margin="323,78,0,0" Grid.Row="1" VerticalAlignment="Top" Width="47" Source="/search_FILL0_wght400_GRAD0_opsz48.png"/>
-        <Button x:Name="Search1" Grid.Column="1" Content="Search" HorizontalAlignment="Left" Height="54" Margin="711,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="111" Background="#FF0DDFBF" FontSize="22" FontFamily="Bahnschrift"/>
-        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="374,75,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Search" VerticalAlignment="Top" Width="337" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF091219" SelectionTextBrush="#FF0AC8D5" VerticalContentAlignment="Center" Padding="10,0,0,0" FontFamily="Bahnschrift" FontSize="22"/>
+        <TextBox x:Name="SearchTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="374,75,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="466" Background="{x:Null}" BorderBrush="{x:Null}" SelectionBrush="#FF091219" SelectionTextBrush="#FF0AC8D5" VerticalContentAlignment="Center" Padding="10,0,0,0" FontFamily="Bahnschrift" FontSize="22" TextChanged="SearchChange" AutomationProperties.Name="Search"/>
 
         <Grid Grid.Column="1" HorizontalAlignment="Left" Height="54" Margin="247,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71">
             <Menu x:Name="Menu" Background="#FFE2D7D7" BorderBrush="Black">
@@ -94,7 +93,7 @@
                     <MenuItem.Background>
                         <ImageBrush ImageSource="/more_horiz_FILL0_wght400_GRAD0_opsz48.png"/>
                     </MenuItem.Background>
-                    <MenuItem x:Name="New" Header="New Document"/>
+                    <MenuItem x:Name="New" Header="New Document" Click="New_Click"/>
                     <MenuItem x:Name="Upload" Header="Upload Document" Click="Upload_Click"/>
                 </MenuItem>
             </Menu>

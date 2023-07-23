@@ -46,9 +46,9 @@ namespace Document_Management_System_with_UI
 
                 if (reader.HasRows)
                 {
-                    HomeWindow objWindow3 = new HomeWindow(username);
+                    HomeWindow objHomeWindow = new HomeWindow(username);
                     this.Visibility = Visibility.Hidden;
-                    objWindow3.Show();
+                    objHomeWindow.Show();
                 }
                 else
                 {
@@ -69,8 +69,8 @@ namespace Document_Management_System_with_UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            AdminVerification objWindow2 = new AdminVerification();
-            objWindow2.ShowDialog();
+            AdminVerification objAdminVerification = new AdminVerification();
+            objAdminVerification.ShowDialog();
         }
 
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
