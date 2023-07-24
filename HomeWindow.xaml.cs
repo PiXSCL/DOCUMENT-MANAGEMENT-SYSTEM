@@ -51,7 +51,10 @@ namespace Document_Management_System_with_UI
 
         private void VH_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            string username = loggedInUsername;
+            VersionWindow objVersionWindow = new VersionWindow(username);
+            this.Visibility = Visibility.Hidden;
+            objVersionWindow.Show();
         }
 
         private void MU_Button_Click(object sender, RoutedEventArgs e)
@@ -196,6 +199,8 @@ namespace Document_Management_System_with_UI
             {
                 selectQuery += " WHERE filename LIKE @SearchText";
             }
+
+            selectQuery += " ORDER BY documentid DESC";
 
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {

@@ -42,4 +42,16 @@
     <Folder Include="Temp\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="VersionWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="VersionWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>
