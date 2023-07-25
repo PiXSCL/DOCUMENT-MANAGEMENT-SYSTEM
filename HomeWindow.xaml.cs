@@ -67,7 +67,19 @@ namespace Document_Management_System_with_UI
 
         private void MU_Button_Click(object sender, RoutedEventArgs e)
         {
+            AdminVerification adminVerification = new AdminVerification();
+            bool? result = adminVerification.ShowDialog();
 
+            if (result.HasValue && result.Value)
+            {
+                UserWindow userWindow = new UserWindow();
+                userWindow.Show();
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MessageBox.Show("Authentication failed.");
+            }
         }
 
         private void Logout_Button_Click(object sender, RoutedEventArgs e)

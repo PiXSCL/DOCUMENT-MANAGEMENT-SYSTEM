@@ -43,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="User Management.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="VersionWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

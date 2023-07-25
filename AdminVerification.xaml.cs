@@ -24,25 +24,24 @@ namespace Document_Management_System_with_UI
             InitializeComponent();
         }
 
+        private bool VerifyAdminPassword(string password)
+        {
+            return password == "secret";
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Admin.Password == "secret")
+            if (VerifyAdminPassword(Admin.Password))
             {
-                RegisterWindow objRegister = new RegisterWindow();
-                Window.GetWindow(this).Close();
-                objRegister.Show();
-
-                LoginWindow loginWindow = Application.Current.Windows.OfType<LoginWindow>().FirstOrDefault();
-                if (loginWindow != null)
-                {
-                    loginWindow.Close();
-                }
+                // Password is correct, set the DialogResult to true and close the dialog window
+                DialogResult = true;
+                this.Close();
             }
             else
             {
                 MessageBox.Show("Invalid Secret Code");
-                this.Visibility = Visibility.Hidden;
             }
         }
     }
+
 }

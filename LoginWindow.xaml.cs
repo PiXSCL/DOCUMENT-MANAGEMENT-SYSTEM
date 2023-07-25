@@ -69,8 +69,19 @@ namespace Document_Management_System_with_UI
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            AdminVerification objAdminVerification = new AdminVerification();
-            objAdminVerification.ShowDialog();
+            AdminVerification adminVerification = new AdminVerification();
+            bool? result = adminVerification.ShowDialog();
+
+            if (result.HasValue && result.Value)
+            {
+                RegisterWindow registerWindow = new RegisterWindow();
+                registerWindow.Show();
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                MessageBox.Show("Authentication failed.");
+            }
         }
 
         private void ShowPassword_Checked(object sender, RoutedEventArgs e)
