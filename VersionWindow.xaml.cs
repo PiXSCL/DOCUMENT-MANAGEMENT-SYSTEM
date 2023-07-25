@@ -224,7 +224,7 @@ namespace Document_Management_System_with_UI
             {
                 string filename = selectedRow["filename"].ToString();
                 string author = selectedRow["author"].ToString();
-                string description = selectedRow["description"].ToString(); ;
+                string description = selectedRow["description"].ToString();
                 DateTime timestamp = (DateTime)selectedRow["timestamp"];
 
                 // Get the binary data from the selected row in the versions table
@@ -290,7 +290,7 @@ namespace Document_Management_System_with_UI
                             if (RecoverFileInDatabase(filename, fileData, fileId))
                             {
                                 // Update the version's description, timestamp, and author in the versions table
-                                UpdateVersionDetails(versionId, description, timestamp, author);
+                                UpdateVersionDetails(versionId, "Recovered", DateTime.Now, loggedInUsername);
 
                                 MessageBox.Show("File recovered and overwritten successfully.");
                                 LoadData();
@@ -307,7 +307,7 @@ namespace Document_Management_System_with_UI
                         if (RecoverFileInDatabase(filename, fileData))
                         {
                             // Update the version's description, timestamp, and author in the versions table
-                            UpdateVersionDetails(fileId, description, timestamp, author);
+                            UpdateVersionDetails(versionId, "Recovered", DateTime.Now, loggedInUsername);
 
                             MessageBox.Show("File recovered successfully.");
                             LoadData();
@@ -336,9 +336,9 @@ namespace Document_Management_System_with_UI
                     using (MySqlCommand command = new MySqlCommand(updateQuery, connection))
                     {
                         command.Parameters.AddWithValue("@VersionId", versionId);
-                        command.Parameters.AddWithValue("@Description", "Recovered");
-                        command.Parameters.AddWithValue("@Timestamp", DateTime.Now);
-                        command.Parameters.AddWithValue("@Author", loggedInUsername);
+                        command.Parameters.AddWithValue("@Description", description);
+                        command.Parameters.AddWithValue("@Timestamp", timestamp);
+                        command.Parameters.AddWithValue("@Author", author);
 
                         int rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected <= 0)

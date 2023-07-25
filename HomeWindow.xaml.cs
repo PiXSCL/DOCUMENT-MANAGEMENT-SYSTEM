@@ -51,6 +51,14 @@ namespace Document_Management_System_with_UI
 
         private void VH_Button_Click(object sender, RoutedEventArgs e)
         {
+            bool hasViewAndEditAccess = CheckUserAccessLevel(loggedInUsername, "View & Edit");
+
+            if (!hasViewAndEditAccess)
+            {
+                MessageBox.Show("You lack the permission to access version history.");
+                return;
+            }
+
             string username = loggedInUsername;
             VersionWindow objVersionWindow = new VersionWindow(username);
             this.Visibility = Visibility.Hidden;
