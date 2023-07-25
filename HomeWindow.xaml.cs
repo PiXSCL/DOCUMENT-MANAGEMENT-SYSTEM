@@ -72,7 +72,7 @@ namespace Document_Management_System_with_UI
 
             if (result.HasValue && result.Value)
             {
-                UserWindow userWindow = new UserWindow();
+                UserWindow userWindow = new UserWindow(loggedInUsername);
                 userWindow.Show();
                 this.Visibility = Visibility.Hidden;
             }

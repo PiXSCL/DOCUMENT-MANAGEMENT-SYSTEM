@@ -40,6 +40,7 @@ namespace Document_Management_System_with_UI
             else
             {
                 MessageBox.Show("Invalid Secret Code");
+                this.Close();
             }
         }
     }

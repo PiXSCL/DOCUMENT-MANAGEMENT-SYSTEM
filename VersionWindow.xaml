@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Document_Management_System_with_UI"
         mc:Ignorable="d"
-        Title="VersionHistory" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window3_Loaded">
+        Title="VersionHistory" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window3_Loaded" >
     <Grid Margin="-48,0,-70,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>

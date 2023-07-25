@@ -64,7 +64,7 @@ namespace Document_Management_System_with_UI
 
             if (result.HasValue && result.Value)
             {
-                UserWindow userWindow = new UserWindow();
+                UserWindow userWindow = new UserWindow(loggedInUsername);
                 userWindow.Show();
                 this.Visibility = Visibility.Hidden;
             }
@@ -264,6 +264,7 @@ namespace Document_Management_System_with_UI
                             {
                                 if (reader.Read())
                                 {
+                                    documentId = reader.GetInt32("file_id");    
                                     versionId = reader.GetInt32("version_id");
                                     fileId = reader.GetInt32("file_id");
                                     fileData = (byte[])reader["data"];
@@ -432,7 +433,7 @@ namespace Document_Management_System_with_UI
             else
             {
                 // Insert new version
-                string insertQuery = "INSERT INTO dms.documents (filename, data, extension) VALUES (@FileName, @FileData, @FileExtension)";
+                string insertQuery = "INSERT INTO dms.documents (documentid, filename, data, extension) VALUES (@DocumentId, @FileName, @FileData, @FileExtension)";
 
                 using (MySqlConnection connection = new MySqlConnection(connectionString))
                 {
@@ -442,6 +443,7 @@ namespace Document_Management_System_with_UI
 
                         using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
                         {
+                            command.Parameters.AddWithValue("@DocumentId", documentId);
                             command.Parameters.AddWithValue("@FileName", filename);
                             command.Parameters.AddWithValue("@FileData", fileData);
                             command.Parameters.AddWithValue("@FileExtension", Path.GetExtension(filename));

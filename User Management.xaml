@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Document_Management_System_with_UI"
         mc:Ignorable="d"
-        Title="User Manager" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window3_Loaded">
+        Title="User Manager" Height="450" Width="800" Background="{x:Null}" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Loaded="Window3_Loaded" >
     <Grid Margin="-48,0,-70,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
@@ -114,6 +114,6 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="5" Margin="3,36,0,0" Grid.Row="2" Stroke="#FF066807" VerticalAlignment="Top" Width="244" Fill="#FF066807"/>
+        <Rectangle Grid.Column="1" HorizontalAlignment="Left" Height="5" Margin="0,36,0,0" Grid.Row="2" Stroke="#FF066807" VerticalAlignment="Top" Width="244" Fill="#FF066807"/>
     </Grid>
 </Window>
