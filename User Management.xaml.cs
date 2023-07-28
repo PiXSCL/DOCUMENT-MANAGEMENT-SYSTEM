@@ -128,7 +128,7 @@ namespace Document_Management_System_with_UI
             // If there's a search text, modify the SELECT query to include the WHERE clause
             if (!string.IsNullOrWhiteSpace(searchText))
             {
-                selectQuery += " WHERE filename LIKE @SearchText";
+                selectQuery += " WHERE username LIKE @SearchText";
             }
 
             selectQuery += " ORDER BY create_time DESC";
